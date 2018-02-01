@@ -22,6 +22,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = '分类'
 
+    def __unicode__(self):
+        return self.name
+
 
 class Tag(models.Model):
     STATUS_ITEMS = (
@@ -38,12 +41,15 @@ class Tag(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = '标签'
 
+    def __unicode__(self):
+        return self.name
+
 
 class Post(models.Model):
     STATUS_ITEMS = (
-        (1, '正常'),
+        (1, '上线'),
         (2, '删除'),
-        (3, '草稿'),
+        # (3, '草稿'),
     )
 
     title = models.CharField(max_length=255, verbose_name='标题')
@@ -59,3 +65,13 @@ class Post(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '文章'
+
+
+    def status_show(self):
+        return '当前状态: %s' % self.status
+    status_show.short_description = '展示状态'
+
+
+    def __unicode__(self):
+        return self.title
+
