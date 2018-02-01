@@ -26,6 +26,14 @@ class Link(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = '友链'
 
+    # 修改weight
+    def weight_show(self):
+        return '权重: %s' % self.weight
+    weight_show.short_description = '优先级'
+
+    def __unicode__(self):
+        return self.title
+
 
 class SideBar(models.Model):
     STATUS_ITEMS = (
@@ -39,7 +47,8 @@ class SideBar(models.Model):
         (4, '最近评论'),
     )
     title = models.CharField(max_length=50, verbose_name='标题')
-    display_type = models.PositiveIntegerField(default=1, choices=SIDE_TYPE, verbose_name='展示类型')
+    display_type = models.PositiveIntegerField(
+        default=1, choices=SIDE_TYPE, verbose_name='展示类型')
     content = models.CharField(
         max_length=500,
         blank=True,
@@ -50,3 +59,6 @@ class SideBar(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '侧边栏'
+
+    def __unicode__(self):
+        return self.title
