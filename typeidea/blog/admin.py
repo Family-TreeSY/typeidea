@@ -9,10 +9,12 @@ from django.urls import reverse
 from .models import Category, Tag, Post
 from typeidea.custom_site import custom_site
 from .adminforms import PostAdminForm
+from typeidea.custom_admin import BaseOwnerAdmin
 
 
 @admin.register(Post, site=custom_site)
-class PostAdmin(admin.ModelAdmin):
+# class PostAdmin(admin.ModelAdmin):
+class PostAdmin(BaseOwnerAdmin):
     form = PostAdminForm
     list_display = [
         'title',
@@ -40,25 +42,28 @@ class PostAdmin(admin.ModelAdmin):
     # 增加删除保存键置顶
     # save_on_top = True
     # 要展示的字段
-    # fields = (('title', 'category'), 'status')
+    fields = (('title', 'category'),
+              'desc',
+              'status',
+              'content')
     # status不展示
     # exclude = ('status',)
-    fieldsets = (  # 跟fields互斥
-        ('基础设置', {
-            'fields': (('category', 'title'),
-                       'desc',
-                       'status',  # TODO(Treehl): 后面添加的字段
-                       'content')
-        }),
-        ('高级设置', {
-            'classes': ('collapse', 'addon'),
-            'fields': ('tag',),
-        }),
-    )
+    # fieldsets = (  # 跟fields互斥
+    #     ('基础设置', {
+    #         'fields': (('category', 'title'),
+    #                    'desc',
+    #                    'status',  # TODO(Treehl): 后面添加的字段
+    #                    'content')
+    #     }),
+    #     ('高级设置', {
+    #         'classes': ('collapse', 'addon'),
+    #         'fields': ('tag',),
+    #     }),
+    # )
     # 水平布局
     # filter_horizontal = ('tag', )
     # 垂直布局
-    filter_vertical = ('tag',)
+    # filter_vertical = ('tag',)
 
     def operator(self, obj):
         return format_html(
@@ -68,30 +73,31 @@ class PostAdmin(admin.ModelAdmin):
 
     operator.short_description = '操作'
 
-    def save_model(self, request, obj, form, change):
-        print self, request, obj, form, change
-        obj.owner = request.user
-        super(PostAdmin, self).save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     print self, request, obj, form, change
+    #     obj.owner = request.user
+    #     super(PostAdmin, self).save_model(request, obj, form, change)
 
 
-class PostInline(admin.TabularInline):
-    fields = ('title', 'desc', 'status')
-    extra = 2  # 控制额外多几个
-    # 指定模型类
-    model = Post
+# class PostInline(admin.TabularInline):
+#     fields = ('title', 'desc', 'status')
+#     extra = 2  # 控制额外多几个
+#     # 指定模型类
+#     model = Post
 
 
 @admin.register(Category, site=custom_site)
-class CategoryAdmin(admin.ModelAdmin):
-    inlines = [
-        PostInline,
-    ]
+# class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(BaseOwnerAdmin):
+    list_display = ['name', 'status', 'is_nav', 'created_time']
+    fields = ('name','status', 'is_nav')
 
 
 @admin.register(Tag, site=custom_site)
-class TagAdmin(admin.ModelAdmin):
-    pass
-
+# class TagAdmin(admin.ModelAdmin):
+class TagAdmin(BaseOwnerAdmin):
+    list_display = ['name', 'status', 'created_time']
+    fields = ('name','status')
 
 # admin.site.register(Category, CategoryAdmin)
 # admin.site.register(Tag, TagAdmin)
