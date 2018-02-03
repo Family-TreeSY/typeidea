@@ -9,9 +9,12 @@ from .models import Comment
 from django.urls import reverse
 from typeidea.custom_site import custom_site
 from .adminforms import CommentAdminForm
+from typeidea.custom_admin import BaseOwnerAdmin
+
 
 @admin.register(Comment, site=custom_site)
-class CommentAdmin(admin.ModelAdmin):
+# class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(BaseOwnerAdmin):
     form = CommentAdminForm
     list_display = ['post', 'nickname', 'created_time', 'email', 'operator']
     # list_display_links = ['post', 'nickname', 'email']
@@ -23,19 +26,22 @@ class CommentAdmin(admin.ModelAdmin):
     '''
     编辑页面
     '''
-    fieldsets = (
-        ('基础设置', {
-            'fields': (('nickname', 'post'),
-                       'website',
-                       'content',
-                       'email',),
-        }),
-        ('高级设置', {
-            'classes': ('collapse', 'addon'),
-            'fields': ('website',)
-        })
-    )
-
+    # fieldsets = (
+    #     ('基础设置', {
+    #         'fields': (('nickname', 'post'),
+    #                    'website',
+    #                    'content',
+    #                    'email',),
+    #     }),
+    #     ('高级设置', {
+    #         'classes': ('collapse', 'addon'),
+    #         'fields': ('website',)
+    #     })
+    # )
+    fields = (('nickname', 'post'),
+              'website',
+              'email',
+              'content')
 
     def operator(self, obj):
         return format_html(

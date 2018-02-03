@@ -89,15 +89,28 @@ class PostAdmin(BaseOwnerAdmin):
 @admin.register(Category, site=custom_site)
 # class CategoryAdmin(admin.ModelAdmin):
 class CategoryAdmin(BaseOwnerAdmin):
-    list_display = ['name', 'status', 'is_nav', 'created_time']
+    list_display = ['name', 'status', 'is_nav', 'created_time', 'operator']
     fields = ('name','status', 'is_nav')
 
+
+    def operator(self, obj):
+        return format_html(
+            '<a href="{}">编辑</a>',
+            reverse('cus_admin:blog_category_change', args=(obj.id,))
+        )
 
 @admin.register(Tag, site=custom_site)
 # class TagAdmin(admin.ModelAdmin):
 class TagAdmin(BaseOwnerAdmin):
-    list_display = ['name', 'status', 'created_time']
+    list_display = ['name', 'status', 'created_time', 'operator']
     fields = ('name','status')
+
+
+    def operator(self, obj):
+        return format_html(
+            '<a href="{}">编辑</a>',
+            reverse('cus_admin:blog_tag_change', args=(obj.id,))
+        )
 
 # admin.site.register(Category, CategoryAdmin)
 # admin.site.register(Tag, TagAdmin)

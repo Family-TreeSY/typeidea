@@ -9,10 +9,12 @@ from django.urls import reverse
 
 from .models import Link, SideBar
 from typeidea.custom_site import custom_site
+from typeidea.custom_admin import BaseOwnerAdmin
 
 
 @admin.register(Link, site=custom_site)
-class LinkAdmin(admin.ModelAdmin):
+# class LinkAdmin(admin.ModelAdmin):
+class LinkAdmin(BaseOwnerAdmin):
     form = LinkAdminForm
     list_display = [
         'title',
@@ -32,19 +34,23 @@ class LinkAdmin(admin.ModelAdmin):
     '''
     编辑页面
     '''
-    fieldsets = (
-        ('基础设置', {
-            'fields': (('title', 'owner'),
-                       'href',
-                       'status',)
-        }),
-        ('高级设置', {
-            'classes': ('collapse', 'addon'),
-            'fields': ('weight',),
-        }),
-    )
-    # 增加展示页面编辑按钮
+    # fieldsets = (
+    #     ('基础设置', {
+    #         'fields': (('title', 'owner'),
+    #                    'href',
+    #                    'status',)
+    #     }),
+    #     ('高级设置', {
+    #         'classes': ('collapse', 'addon'),
+    #         'fields': ('weight',),
+    #     }),
+    # )
+    fields = (('title',),
+              'href',
+              'weight',
+              'status')
 
+    # 增加展示页面编辑按钮
     def operator(self, obj):
         return format_html(
             '<a href="{}">编辑</a>',
@@ -54,11 +60,15 @@ class LinkAdmin(admin.ModelAdmin):
     operator.short_description = '操作'
 
 
+
+
 @admin.register(SideBar, site=custom_site)
-class SideBarAdmin(admin.ModelAdmin):
+# class SideBarAdmin(admin.ModelAdmin):
+class SideBarAdmin(BaseOwnerAdmin):
     form = SideBarAdminForm
     list_display = [
         'title',
+        'status',
         'display_type',
         'content',
         'owner',
@@ -71,16 +81,20 @@ class SideBarAdmin(admin.ModelAdmin):
     '''
     编辑页面
     '''
-    fieldsets = (
-        ('基础设置', {
-            'fields': (('title', 'owner'),
-                       'content',)
-        }),
-        ('高级设置', {
-            'classes': ('collapse', 'addon'),
-            'fields': ('display_type',)
-        }),
-    )
+    # fieldsets = (
+    #     ('基础设置', {
+    #         'fields': (('title', 'owner'),
+    #                    'content',)
+    #     }),
+    #     ('高级设置', {
+    #         'classes': ('collapse', 'addon'),
+    #         'fields': ('display_type',)
+    #     }),
+    # )
+    fields = (('title',),
+              'status',
+              'display_type',
+              'content',)
 
     def operator(self, obj):
         return format_html(
