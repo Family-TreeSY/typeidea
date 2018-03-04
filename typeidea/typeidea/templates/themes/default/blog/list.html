@@ -1,0 +1,94 @@
+{% extends "./base.html" %}
+<!--<h1>list</h1>-->
+<!--<ul>-->
+    <!--{% for cate in nav_cates %}-->
+    <!--<li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a></li>-->
+    <!--{% endfor %}-->
+<!--</ul>-->
+{% block content %}
+<ul>
+    {% if posts %}
+        {% for post in posts %}
+        <div class="post-element">
+            <div>
+                <h3 class="post-element-title">
+                    <a href="{% url 'detail' post.id %}">{{ post.title }}</a>
+                </h3>
+                <div>
+                    <nav class="nav">
+                        分类:<a class="nav-link post-element-nav" href="{% url 'category' post.category_id %}">{{ post.category }}</a>
+                        标签:<a class="nav-link post-element-nav" href="#">{% for tg in post.tag.all %} {{ tg.name }}{% endfor %}</a>
+                        作者:<a class="nav-link post-element-nav" href="#">{{ post.owner }}</a>
+                        创建时间:<a class="nav-link post-element-nav" href="#">{{ post.created_time }}</a>
+                    </nav>
+                </div>
+                <div class="post-element-desc">
+                    <p>{{ post.desc }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
+        Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+        {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}
+    {% else %}
+        Empty!!!
+    {% endif %}
+
+</ul>
+<!--<ul>-->
+    <!--<hr/>-->
+    <!--{% if posts %}-->
+        <!--{% for post in posts %}-->
+        <!--<li>-->
+            <!--title: <a href="{% url 'detail' post.id %}">{{ post.title }}</a> <br/>-->
+            <!--desc: {{ post.desc }}-->
+        <!--</li>-->
+        <!--{% endfor %}-->
+        <!--{% if posts.has_previous %}<a href="?page={{ posts.number|add:'-1'}}">上一页</a>{% endif %}-->
+        <!--Page {{ posts.number }} of {{ posts.paginator.num_pages }}.-->
+        <!--{% if posts.has_next %}<a href="?page={{ posts.number|add:'1'}}">下一页</a>{% endif %}-->
+    <!--{% else %}-->
+        <!--Empty!!!-->
+    <!--{% endif %}-->
+    <!---->
+<!--</ul>-->
+{% endblock %}
+
+<!--<hr/>-->
+
+<!--<ul>-->
+    <!--{% for cate in cates %}-->
+    <!--<li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a></li>-->
+    <!--{% endfor %}-->
+<!--</ul>-->
+
+<!--<hr/>-->
+
+<!--<ul>-->
+    <!--{% for side in sidebars %}-->
+    <!--<h4>{{ side.title }}</h4>-->
+    <!--<div>-->
+        <!--{% if side.display_type == 1 %}-->
+            <!--{% autoescape on %}-->
+            <!--{{ side.content }}-->
+            <!--{% endautoescape %}-->
+        <!--{% elif side.display_type == 2 %}-->
+        <!--<ul>-->
+            <!--{% for post in recently_posts %}-->
+            <!--<li>{{ post.title }}</li>-->
+            <!--{% endfor %}-->
+        <!--</ul>-->
+        <!--{% elif side.display_type == 4 %}-->
+            <!--{% for comment in recently_comments %}-->
+            <!--<li>{{ comment.content }}</li>-->
+            <!--{% endfor %}-->
+        <!--{% endif %}-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<div>&ndash;&gt;-->
+        <!--&lt;!&ndash;{{ side.display_type }}&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--{% endfor %}-->
+<!--</ul>-->
+
+

@@ -43,6 +43,7 @@ class PostAdmin(BaseOwnerAdmin):
     # save_on_top = True
     # 要展示的字段
     fields = (('title', 'category'),
+              'tag',
               'desc',
               'status',
               'content')
