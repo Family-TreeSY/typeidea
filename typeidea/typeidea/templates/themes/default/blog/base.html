@@ -9,6 +9,13 @@
       <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
       <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
       <style>
+           .banner {
+            margin-top: 40px;
+           }
+           .category a{
+           padding-top: 20px;
+            margin-right: 20px; # 导航分类之间的距离
+           }
           .post-element-nav {
             padding-top: 0;
             padding-bottom: 0;
@@ -26,19 +33,35 @@
           .main {
             margin-top: 25px;
           }
+          .main ul{
+            padding-left: 0px;
+          }
+          .post-element article{
+            margin-top: 10px; #
+          }
+          .by {
+            margin-top: 40px;
+          }
+          .sidebar li{
+            list-style: none;
+          }
+          .sidebar a{
+            color: #444;
+          }
 
       </style>
       <title>Typeidea Blog</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container banner">
         <h3>
             Typeidea Blog
             <small class="text-muted"> - 基于Django多人博客系统</small>
         </h3>
     </div>
     <div class="container">
-        <nav class="nav" style="border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+        <nav class="nav category" style="border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+            <a href="/">首页</a>
             {% for cate in nav_cates %}
             <a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
             {% endfor %}
@@ -53,7 +76,7 @@
             </div>
             <div class="col-3">
                 {% for side in sidebars %}
-                <div class="container">
+                <div class="container sidebar">
                     <h4>{{ side.title }}</h4>
                     <div>
                         {% if side.display_type == 1 %}
@@ -63,13 +86,16 @@
                         {% elif side.display_type == 2 %}
                         <ul>
                             {% for post in recently_posts %}
-                            <li>{{ post.title }}</li>
+                            <li><a href="{% url 'detail' post.pk %}">{{ post.title }}</a></li>
                             {% endfor %}
                         </ul>
                         {% elif side.display_type == 4 %}
+                        <ul>
                             {% for comment in recently_comments %}
                             <li>{{ comment.content }}</li>
                             {% endfor %}
+                        </ul>
+
                         {% endif %}
                     </div>
                 </div>
@@ -80,13 +106,13 @@
 
   <footer class="footer">
         <div class="container">
-            <nav class="nav">
+            <nav class="nav category">
                 {% for cate in cates %}
                 <a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
                 {% endfor %}
             </nav>
         </div>
-        <div class="container">
+        <div class="container by">
         <span class="text-muted">Power by typeidea@treehl</span>
         </div>
     </footer>

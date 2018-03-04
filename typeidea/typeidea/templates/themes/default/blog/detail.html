@@ -2,13 +2,29 @@
 <!--<a href="/">首页</a>-->
 {% block content %}
 <!--<h1>{{ post.title }}</h1>-->
-<h2>{{ post.title }}</h2>
-<div>
-    <ul>
-        <li><a href="\">首页</a></li>
-        <li><a href="">{{ post.category.name }}</a></li>
-        <li>正文</li>
-    </ul>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">首页</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'category' post.category.id %}">{{ post.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">正文</li>
+    </ol>
+</nav>
+<div class="post-element">
+    <div>
+        <h3 class="post-element-title">
+            {{ post.title }}
+        </h3>
+        <div>
+            <nav class="nav">
+                分类:<a class="nav-link post-element-nav" href="{% url 'category' post.category_id %}">{{ post.category }}</a>
+                标签:<a class="nav-link post-element-nav" href="#">{% for tg in post.tag.all %} {{ tg.name }}{% endfor %}</a>
+                作者:<a class="nav-link post-element-nav" href="#">{{ post.owner }}</a>
+                创建时间:<a class="nav-link post-element-nav" href="#">{{ post.created_time }}</a>
+            </nav>
+        </div>
+    </div>
+    <article>
+        {{ post.content }}
+    </article>
 </div>
-{{ post.content }}
 {% endblock %}
