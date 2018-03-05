@@ -15,4 +15,4 @@ DATABASES = {
     }
 }
 
-THEME = 'themes/default'
+
