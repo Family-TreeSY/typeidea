@@ -63,8 +63,6 @@ class Post(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
-    class Meta:
-        verbose_name = verbose_name_plural = '文章'
 
 
     def status_show(self):
@@ -74,4 +72,10 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+    class Meta:
+        verbose_name = verbose_name_plural = '文章'
+        ordering = ['-id']
+
 
