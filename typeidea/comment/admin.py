@@ -16,7 +16,7 @@ from typeidea.custom_admin import BaseOwnerAdmin
 # class CommentAdmin(admin.ModelAdmin):
 class CommentAdmin(BaseOwnerAdmin):
     form = CommentAdminForm
-    list_display = ['target', 'nickname', 'created_time', 'email', 'operator']
+    list_display = ['nickname', 'created_time', 'email', 'website', 'operator']
     # list_display_links = ['post', 'nickname', 'email']
     list_filter = ['nickname']
     search_fields = ['post', 'nickename']

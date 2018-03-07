@@ -181,7 +181,7 @@ class PostView(CommonMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'comment_form': CommentForm(),
+            'comment_form': CommentForm(), # initial: 指定表单的初始数据
         })
         return super(PostView,self).get_context_data(**kwargs)
 
