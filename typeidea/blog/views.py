@@ -12,6 +12,7 @@ from django.views.generic import ListView, DetailView
 from .models import Post, Tag, Category
 from config.models import SideBar
 from comment.models import Comment
+from comment.forms import CommentForm
 
 
 class CommonMixin(object):
@@ -176,6 +177,13 @@ class PostView(CommonMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
+
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'comment_form': CommentForm(),
+        })
+        return super(PostView,self).get_context_data(**kwargs)
 
     # def get_sidebar_data(self):
     #     return []

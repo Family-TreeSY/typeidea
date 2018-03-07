@@ -7,6 +7,7 @@ NOQA:告诉PEP8检测工具，这里不需要检测
 '''
 
 DEBUG = True
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
