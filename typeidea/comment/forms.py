@@ -6,6 +6,9 @@ from django import forms
 from .models import Comment
 
 class CommentForm(forms.ModelForm):
+    target = forms.CharField(max_length=180, widget=forms.widgets.HiddenInput)
+    content = forms.CharField(label='内容', widget=forms.Textarea(attrs={'rows': 6, 'cols': 88}))
+
     def clean_content(self):
         content = self.cleaned_data.get('content')
         if len(content) < 10:
@@ -14,5 +17,5 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = [
-            'nickname', 'email', 'website', 'content'
+            'target', 'nickname', 'email', 'website', 'content'
         ]
