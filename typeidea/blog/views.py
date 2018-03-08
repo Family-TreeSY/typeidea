@@ -13,6 +13,7 @@ from .models import Post, Tag, Category
 from config.models import SideBar
 from comment.models import Comment
 from comment.forms import CommentForm
+# from comment.views import CommentShowMixin
 
 
 class CommonMixin(object):
@@ -45,14 +46,11 @@ class CommonMixin(object):
             'nav_cates': nav_cates,
         }
 
-
     def get_sidebar_data(self):
         sidebars = SideBar.objects.filter(status=1)
         return {
             'sidebars': sidebars,
         }
-
-
 
     def get_context_data(self, **kwargs):
         # context = super(CommonMixin, self).get_context_data()
@@ -112,6 +110,7 @@ class CommonMixin(object):
         # kwargs.update(self.get_sidebar_data())
         return super(CommonMixin, self).get_context_data(**kwargs)
 
+
 class BasePostsView(CommonMixin, ListView):
     '''
     model: 告诉Django我们要获取的模型是Post
@@ -131,6 +130,7 @@ class IndexView(BasePostsView):
     1.数据过滤
     2.数据传递到模板里
     '''
+
     def get_queryset(self):
         query = self.request.GET.get('query')
         qs = super(IndexView, self).get_queryset()
@@ -141,7 +141,6 @@ class IndexView(BasePostsView):
     def get_context_data(self, **kwargs):
         query = self.request.GET.get('query')
         return super(IndexView, self).get_context_data(query=query)
-
 
 
 class CategoryView(BasePostsView):
@@ -178,14 +177,19 @@ class PostView(CommonMixin, DetailView):
     template_name = 'blog/detail.html'
     context_object_name = 'post'
 
+    def get_comment(self):
+        target = self.request.path
+        comments = Comment.objects.filter(target=target)
+        return comments
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'comment_form': CommentForm(), # initial: 指定表单的初始数据
+            'comment_form': CommentForm(),
+            'comment_list': self.get_comment()
         })
-        return super(PostView,self).get_context_data(**kwargs)
+        return super(PostView, self).get_context_data(**kwargs)
 
-    # def get_sidebar_data(self):
+    # def get_sidebar_data(self ):
     #     return []
 
 
