@@ -1,4 +1,4 @@
-           body {
+          body {
                 background-color: #eeeeee; # 页面背景色
            }
            .fixed-top {
@@ -58,15 +58,15 @@
                 padding: 1rem;
           }
           .main {
-                margin-top: 75px;
+                margin-top: 80px;
           }
           .main ul {
                 padding-left: 0px;
           }
-          .post-element article {
+         .post-element article {
                 margin-top: 10px; #
           }
-          .by {
+         .by {
                 margin-top: 40px;
           }
           .sidebar li {

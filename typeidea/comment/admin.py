@@ -16,10 +16,9 @@ from typeidea.custom_admin import BaseOwnerAdmin
 # class CommentAdmin(admin.ModelAdmin):
 class CommentAdmin(BaseOwnerAdmin):
     form = CommentAdminForm
-    list_display = ['nickname', 'created_time', 'email', 'website', 'operator']
-    # list_display_links = ['post', 'nickname', 'email']
-    list_filter = ['nickname']
-    search_fields = ['post', 'nickename']
+    list_display = ['target', 'nickname', 'created_time', 'email', 'website', 'operator']
+    # list_filter = ['nickname']
+    # search_fields = ['post', 'nickename']
     actions_on_top = True
     date_hierarchy = 'created_time'
 
@@ -38,10 +37,10 @@ class CommentAdmin(BaseOwnerAdmin):
     #         'fields': ('website',)
     #     })
     # )
-    fields = (('nickname', 'post'),
-              'website',
-              'email',
-              'content')
+    # fields = (('nickname', 'post'),
+    #           'website',
+    #           'email',
+    #           'content')
 
     def operator(self, obj):
         return format_html(
