@@ -16,7 +16,7 @@ from typeidea.custom_admin import BaseOwnerAdmin
 # class CommentAdmin(admin.ModelAdmin):
 class CommentAdmin(BaseOwnerAdmin):
     form = CommentAdminForm
-    list_display = ['target', 'nickname', 'created_time', 'email', 'website', 'operator']
+    list_display = ['target', 'nickname', 'created_time', 'email', 'website', 'content', 'operator']
     # list_filter = ['nickname']
     # search_fields = ['post', 'nickename']
     actions_on_top = True
