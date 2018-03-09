@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from .forms import CommentForm
 from .models import Comment
+
 
 
 class CommentShowMixin(object):
@@ -36,6 +38,7 @@ class CommentView(TemplateView):
             instance.target = target
             instance.save()
             succeed = True
+            return redirect(target) # 重定向到页面
         else:
             succeed = False
 
