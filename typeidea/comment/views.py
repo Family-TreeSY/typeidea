@@ -24,6 +24,7 @@ class CommentShowMixin(object):
 
 
 class CommentView(TemplateView):
+    http_method_names = ['post']
     template_name = 'comment/result.html'
 
     def get(self, request, *args, **kwargs):
