@@ -10,6 +10,8 @@
       <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
       <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
       <link rel="stylesheet" href="{% static 'css/base.css' %}">
+      {% block style %}
+      {% endblock %}
       <style>
 
       </style>
@@ -88,15 +90,19 @@
     </div>
 
   <footer class="footer">
-        <div class="container">
-            <nav class="nav category">
-                {% for cate in cates %}
+      <div class="container">
+          <hr/>
+          <nav class="nav category">
+              {% for cate in cates %}
                 <a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
-                {% endfor %}
-            </nav>
-        </div>
-        <div class="container by">
-        <span class="text-muted">Power by typeidea@treehl</span>
-        </div>
-    </footer>
-© 2018 GitHub, Inc.
+              {% endfor %}
+          </nav>
+      </div>
+      <div class="container by">
+          <span class="text-muted">Power by typeidea@treehl</span>
+      </div>
+      {% block javascript %}
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?"></script>
+      {% endblock %}
+  </footer>
+

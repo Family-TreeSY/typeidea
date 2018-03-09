@@ -42,11 +42,13 @@ class PostAdmin(BaseOwnerAdmin):
     # 增加删除保存键置顶
     # save_on_top = True
     # 要展示的字段
-    fields = (('title', 'category'),
-              'tag',
-              'desc',
-              'status',
-              'content')
+    fields = (
+        ('title', 'category'),
+        'tag',
+        'desc',
+        'status',
+        ('content', 'is_markdown'),
+    )
     # status不展示
     # exclude = ('status',)
     # fieldsets = (  # 跟fields互斥
@@ -91,8 +93,7 @@ class PostAdmin(BaseOwnerAdmin):
 # class CategoryAdmin(admin.ModelAdmin):
 class CategoryAdmin(BaseOwnerAdmin):
     list_display = ['name', 'status', 'is_nav', 'created_time', 'operator']
-    fields = ('name','status', 'is_nav')
-
+    fields = ('name', 'status', 'is_nav')
 
     def operator(self, obj):
         return format_html(
@@ -100,12 +101,12 @@ class CategoryAdmin(BaseOwnerAdmin):
             reverse('cus_admin:blog_category_change', args=(obj.id,))
         )
 
+
 @admin.register(Tag, site=custom_site)
 # class TagAdmin(admin.ModelAdmin):
 class TagAdmin(BaseOwnerAdmin):
     list_display = ['name', 'status', 'created_time', 'operator']
-    fields = ('name','status')
-
+    fields = ('name', 'status')
 
     def operator(self, obj):
         return format_html(
