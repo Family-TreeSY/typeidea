@@ -6,6 +6,7 @@ import markdown
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import F
 
 
 class Category(models.Model):
@@ -55,6 +56,8 @@ class Post(models.Model):
     )
 
     title = models.CharField(max_length=255, verbose_name='标题')
+    pv = models.PositiveIntegerField(default=0, verbose_name='pv')
+    uv = models.PositiveIntegerField(default=0, verbose_name='uv')
     desc = models.CharField(max_length=255, blank=True, verbose_name='摘要')
     content = models.TextField(verbose_name='正文', help_text='正文必须为MarkDown格式')
     html = models.TextField(verbose_name='html渲染后的页面', default='', help_text='正文必须为MarkDown格式')
@@ -73,6 +76,13 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def increase_pv(self):
+        return type(self).objects.filter(id=self.id).update(pv=F('pv') + 1)
+
+
+    def increase_uv(self):
+        return type(self).objects.filter(id=self.id).update(uv=F('uv') + 1)
 
     def save(self, *args, **kwargs):
         if self.is_markdown:

@@ -22,12 +22,13 @@
                     <nav class="nav">
                         分类:<a class="nav-link post-element-nav" href="{% url 'category' post.category_id %}">{{ post.category }}</a>
                         {% for tg in post.tag.all %}
-                        标签:<a class="nav-link post-element-nav" href="{% url 'tag' tg.id %}">
-                                {{ tg.name }}
-                            </a>
+                        <!--标签:<a class="nav-link post-element-nav" href="{% url 'tag' tg.id %}">-->
+                                <!--{{ tg.name }}-->
+                            <!--</a>-->
                         {% endfor %}
                         作者:<a class="nav-link post-element-nav" href="{% url 'author' post.owner_id %}">{{ post.owner }}</a>
                         创建时间:<a class="nav-link post-element-nav" href="#">{{ post.created_time }}</a>
+                        阅读量:<a class="nav-link post-element-nav" href="#">{{ post.pv }},{{ post.uv }}</a>
                     </nav>
                 </div>
                 <div class="post-element-desc">

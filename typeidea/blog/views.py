@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import markdown
-from django.shortcuts import render
-from django.http import Http404
-from django.core.paginator import Paginator, EmptyPage
-from django.conf import settings
+# import markdown
+# from django.shortcuts import render
+# from django.http import Http404
+# from django.core.paginator import Paginator, EmptyPage
+# from django.conf import settings
+from django.core.cache import cache
 from django.views.generic import ListView, DetailView
 
 
@@ -90,6 +91,7 @@ class CommonMixin(object):
         最近文章
         '''
         recently_posts = Post.objects.filter(status=1)[:10]
+        hot_posts = Post.objects.filter(status=1).order_by('-pv')[:10]
         # recently_comments = Comment.objects.filter(status=1)[:10]
 
         # context = {
@@ -104,6 +106,7 @@ class CommonMixin(object):
             # 'cates': cates,
             'sidebars': sidebars,
             'recently_posts': recently_posts,
+            'hot_posts': hot_posts,
             # 'recently_comments': recently_comments,
         })
         # context.update(extra_context)
@@ -177,19 +180,33 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
-    #
-    # def get_markdown(self):
-    #     post = super(PostView, self).get_markdown()
-    #     post.content = markdown.markdown(post.body,
-    #                                   extensions=[
-    #                                       'markdown.extensions.extra',
-    #                                       'markdown.extensions.codehilite',
-    #                                       'markdown.extensions.toc',
-    #                                   ])
-    #     return post
-    #
 
-    #
+    def get(self, request, *args, **kwargs):
+        response = super(PostView, self).get(request, *args, **kwargs)
+        self.pv_uv()
+        return response
+
+    def pv_uv(self):
+        # 增加pv
+        # 判断用户增加访问量
+        # self.object: post文章
+        sessionid = self.request.COOKIES.get('sessionid')
+        if not sessionid:
+            return
+
+        pv_key = 'pv:%s:%s' % (sessionid, self.request.path)
+        if not cache.get(pv_key):
+            self.object.increase_pv()
+            cache.set(pv_key, 1, 60)
+        # TODO: 判断用户是否在24小时内访问过
+        uv_key = 'pv:%s:%s' % (sessionid, self.request.path)
+        if not cache.get(uv_key):
+            self.object.increase_uv()
+            cache.set(uv_key, 1, 60*60*24)
+
+
+
+
     # def get_comment(self):
     #     target = self.request.path
     #     comments = Comment.objects.filter(target=target)
