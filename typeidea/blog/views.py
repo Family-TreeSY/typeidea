@@ -199,7 +199,7 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
             self.object.increase_pv()
             cache.set(pv_key, 1, 60)
         # TODO: 判断用户是否在24小时内访问过
-        uv_key = 'pv:%s:%s' % (sessionid, self.request.path)
+        uv_key = 'uv:%s:%s' % (sessionid, self.request.path)
         if not cache.get(uv_key):
             self.object.increase_uv()
             cache.set(uv_key, 1, 60*60*24)
