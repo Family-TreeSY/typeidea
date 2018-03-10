@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import markdown
 from django.shortcuts import render
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage
@@ -176,6 +177,18 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
+    #
+    # def get_markdown(self):
+    #     post = super(PostView, self).get_markdown()
+    #     post.content = markdown.markdown(post.body,
+    #                                   extensions=[
+    #                                       'markdown.extensions.extra',
+    #                                       'markdown.extensions.codehilite',
+    #                                       'markdown.extensions.toc',
+    #                                   ])
+    #     return post
+    #
+
     #
     # def get_comment(self):
     #     target = self.request.path

@@ -1,8 +1,11 @@
 {% extends "./base.html" %}
+{% load static %}
 <!--<a href="/">首页</a>-->
 {% block style %}
-<link href="https://cdn.rawgit.com/google/code-prettify/master/loader/skins/desert.css" rel="stylesheet">
+<!--<link href="https://cdn.rawgit.com/google/code-prettify/master/loader/skins/desert.css" rel="stylesheet">-->
+<link rel="stylesheet" href="{% static 'css/github.css' %}">
 {% endblock %}
+
 {% block content %}
 <!--<h1>{{ post.title }}</h1>-->
 <nav aria-label="breadcrumb">
@@ -35,11 +38,11 @@
 </div>
 {% endblock %}
 
-{% block javascript %}
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?"></script>
-<script>
-    window.onload = function(){
-        PR.prettyPrint();
-    }
-</script>
-{% endblock %}
+<!--{% block javascript %}-->
+<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?"></script>-->
+<!--<script>-->
+    <!--window.onload = function(){-->
+        <!--PR.prettyPrint();-->
+    <!--}-->
+<!--</script>-->
+<!--{% endblock %}-->
