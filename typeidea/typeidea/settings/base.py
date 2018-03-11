@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'comment',
     'typeidea',
 
+    'xadmin',
+    'crispy_forms',
+    'reversion',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
