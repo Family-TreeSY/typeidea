@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'dal_select2',
 
     'ckeditor',
+    'ckeditor_uploader',
 
     'xadmin',
     'crispy_forms',
@@ -147,5 +148,11 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
         'height': 300,
         'width': 900,
+        'tabSpaces': 4,
     },
 }
+
+CKEDITOR_RESTRICT_BY_USER = True
+CKEDITOR_UPLOAD_PATH = 'content/ckeditor'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
