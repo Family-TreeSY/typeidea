@@ -99,6 +99,8 @@ class Post(models.Model):
                                       'markdown.extensions.codehilite',
                                       'markdown.extensions.toc',
                                   ])
+        else:
+            self.html = self.content
         return super(Post, self).save(*args, **kwargs)
 
     class Meta:

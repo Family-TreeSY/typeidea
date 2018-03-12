@@ -91,7 +91,7 @@ class CommonMixin(object):
         最近文章
         '''
         recently_posts = Post.objects.filter(status=1)[:10]
-        hot_posts = Post.objects.filter(status=1).order_by('-pv')[:10]
+        hot_posts = Post.objects.filter(status=1).order_by('-pv')[:5]
         # recently_comments = Comment.objects.filter(status=1)[:10]
 
         # context = {

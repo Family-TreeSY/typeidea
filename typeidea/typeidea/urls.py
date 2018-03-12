@@ -25,6 +25,7 @@ from config.views import LinkView
 from comment.views import CommentView
 from blog.views import IndexView, CategoryView, TagView, PostView, AuthorView
 from typeidea import adminx # NOQA
+from .autocomplete import CategoryAutocomplete, TagAutocomplete
 
 '''
 as_view: 可以理解为把类视图转换为函数视图
@@ -40,6 +41,8 @@ urlpatterns = [
     # url(r'^post/(?P<post_id>\d+).html$', post_detail)
     url(r'^admin/', xadmin.site.urls),
     # url(r'^cus_admin/', custom_site.urls),
+    url(r'^category-autocomplete/$', CategoryAutocomplete.as_view(), name='category-autocomplete'),
+    url(r'^tag-autocomplete/$', TagAutocomplete.as_view(), name='tag-autocomplete'),
 ]
 
 

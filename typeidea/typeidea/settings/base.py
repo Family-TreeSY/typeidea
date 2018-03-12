@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'comment',
     'typeidea',
 
+    'dal',
+    'dal_select2',
+
+    'ckeditor',
+
     'xadmin',
     'crispy_forms',
     'reversion',
@@ -135,3 +140,12 @@ STATIC_URL = '/static/' # 静态资源路径
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, THEME, 'static'),
 ]
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 900,
+    },
+}
