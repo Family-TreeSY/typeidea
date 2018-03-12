@@ -1,5 +1,7 @@
 # blog/adminforms.py
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from dal import autocomplete
 from django import forms
 # from ckeditor.widgets import CKEditorWidget
@@ -22,7 +24,6 @@ class PostAdminForm(forms.ModelForm):
     #     label='标签',
     # )
 
-    #wwdwww
     # class Mata:
     #     model = Post
     #     fields = (
