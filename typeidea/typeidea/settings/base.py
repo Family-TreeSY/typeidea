@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
 
+    'rest_framework',
+
     'xadmin',
     'crispy_forms',
     'reversion',
@@ -157,3 +159,9 @@ CKEDITOR_UPLOAD_PATH = 'content/ckeditor'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_FILE_STORAGE = 'typeidea.storage.MyStorage'
+
+# 分页
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3
+}

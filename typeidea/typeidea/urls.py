@@ -22,6 +22,8 @@ xversion.register_models()
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework import routers
+from rest_framework.documentation import include_docs_urls
 # from django.contrib import admin
 
 from config.views import LinkView
@@ -29,7 +31,15 @@ from comment.views import CommentView
 from blog.views import IndexView, CategoryView, TagView, PostView, AuthorView
 from typeidea import adminx # NOQA
 from .autocomplete import CategoryAutocomplete, TagAutocomplete
+from blog.api import (
+    PostViewSet, CategoryViewSet, TagViewSet, UserViewSet)
 
+
+router = routers.DefaultRouter()
+router.register(r'post', PostViewSet)
+router.register(r'category', CategoryViewSet)
+router.register(r'tag', TagViewSet)
+router.register(r'user', UserViewSet)
 '''
 as_view: 可以理解为把类视图转换为函数视图
 '''
@@ -47,6 +57,8 @@ urlpatterns = [
     url(r'^category-autocomplete/$', CategoryAutocomplete.as_view(), name='category-autocomplete'),
     url(r'^tag-autocomplete/$', TagAutocomplete.as_view(), name='tag-autocomplete'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^api/docs/', include_docs_urls(title='TypeIdea apis')),
+    url(r'^api/', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
