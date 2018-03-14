@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, pagination
 from django.contrib.auth.models import User
 
 from .models import Post, Category, Tag
@@ -23,6 +23,12 @@ class PostSerializer(serializers.ModelSerializer):
         slug_field='username',
         read_only=True,  # api接口展示是中文
     )
+
+    created_time = serializers.DateTimeField(
+        # year-month-date hour:minute:second
+        format="%Y-%m-%d %H:%M:%S"
+    )
+
     class Meta:
         model = Post
         fields = (
@@ -52,6 +58,13 @@ class PostViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = PostDetailSerializer
         return super(PostViewSet, self).retrieve(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = super(PostViewSet, self).get_queryset()
+        category_id = self.request.GET.get('category')
+        if category_id:
+            qs = qs.filter(category_id=category_id)
+        return qs
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -92,10 +105,25 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TagDetailSerializer(serializers.ModelSerializer):
-    posts = PostSerializer(
-        many=True,
-        read_only=True,
-    )
+    posts = serializers.SerializerMethodField('paginated_posts')
+
+    # 分页
+    def paginated_posts(self, obj):
+        posts = obj.posts.all()
+        paginator = pagination.PageNumberPagination()
+        page = paginator.paginate_queryset(posts, self.context['request'])
+        serializer = PostSerializer(page, many=True, context={'request': self.context['request']})
+        return {
+            'count': posts.count(),
+            'results': serializer.data,
+            'previous': paginator.get_previous_link(),
+            'next': paginator.get_next_link(),
+        }
+    #
+    # posts = PostSerializer(
+    #     many=True,
+    #     read_only=True,
+    # )
 
     class Meta:
         model = Tag
