@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 # from django.conf import settings
 from django.core.cache import cache
 from django.views.generic import ListView, DetailView
+from silk.profiling.profiler import silk_profile
 
 
 from .models import Post, Tag, Category
@@ -19,6 +20,7 @@ from comment.views import CommentShowMixin
 
 
 class CommonMixin(object):
+    @silk_profile(name='get_category_context')
     def get_category_data(self):
         '''
         分类视图
