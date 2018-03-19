@@ -14,14 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import re
+
 import xadmin
 xadmin.autodiscover()
 from xadmin.plugins import xversion
 xversion.register_models()
 # from ckeditor_uploader import urls as uploader_urls
 from django.conf.urls import url, include
-from django.conf.urls.static import static
+# from django.conf.urls.static import static
 from django.conf import settings
+from django.views.static import serve
+
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 # from django.contrib import admin
@@ -40,6 +44,12 @@ router.register(r'post', PostViewSet)
 router.register(r'category', CategoryViewSet)
 router.register(r'tag', TagViewSet)
 router.register(r'user', UserViewSet)
+
+def static(prefix, **kwargs):
+    return [
+        url(r'^%s(?P<path>.*)$' % re.escape(prefix.lstrip('/')), serve, kwargs=kwargs),
+    ]
+
 '''
 as_view: 可以理解为把类视图转换为函数视图
 '''
@@ -59,7 +69,7 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^api/docs/', include_docs_urls(title='TypeIdea apis')),
     url(r'^api/', include(router.urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
