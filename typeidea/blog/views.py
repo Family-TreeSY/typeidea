@@ -21,7 +21,7 @@ from comment.views import CommentShowMixin
 
 class CommonMixin(object):
     # @silk_profile(name='get_category_context')
-    def get_category_data(self):
+    def get_category_context(self):
         '''
         分类视图
         '''
@@ -112,7 +112,7 @@ class CommonMixin(object):
             # 'recently_comments': recently_comments,
         })
         # context.update(extra_context)
-        kwargs.update(self.get_category_data())
+        kwargs.update(self.get_category_context())
         # kwargs.update(self.get_sidebar_data())
         return super(CommonMixin, self).get_context_data(**kwargs)
 

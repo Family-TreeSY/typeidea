@@ -27,22 +27,26 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/tmp/django_cache',
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PARSER_CLASS": "redis.connection.HiredisParser",
+        }
     }
 }
 
-#
-# INSTALLED_APPS += [
-#     'debug_toolbar',
-#     'silk'
-# ]
-#
-# MIDDLEWARE += [
-#     'debug_toolbar.middleware.DebugToolbarMiddleware',
-#     'silk.middleware.SilkyMiddleware',
-# ]
-#
-# INTERNAL_IPS = ['127.0.0.1']
-#
-# SILKY_PYTHON_PROFILER = True
+
+INSTALLED_APPS += [
+    'debug_toolbar',
+    # 'silk'
+]
+
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'silk.middleware.SilkyMiddleware',
+]
+
+INTERNAL_IPS = ['127.0.0.1']
+
+SILKY_PYTHON_PROFILER = True
