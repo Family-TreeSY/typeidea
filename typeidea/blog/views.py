@@ -19,6 +19,7 @@ from config.models import SideBar
 from comment.views import CommentShowMixin
 
 
+
 class CommonMixin(object):
     # @silk_profile(name='get_category_context')
     def get_category_context(self):
@@ -205,8 +206,6 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         if not cache.get(uv_key):
             self.object.increase_uv()
             cache.set(uv_key, 1, 60*60*24)
-
-
 
 
     # def get_comment(self):

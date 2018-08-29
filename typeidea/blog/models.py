@@ -80,7 +80,6 @@ class Post(models.Model):
     def increase_pv(self):
         return type(self).objects.filter(id=self.id).update(pv=F('pv') + 1)
 
-
     def increase_uv(self):
         return type(self).objects.filter(id=self.id).update(uv=F('uv') + 1)
 
